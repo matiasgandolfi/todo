@@ -1,0 +1,128 @@
+<section class="todoapp">
+  <header class="header">
+
+
+    <!-- Nueva tarea -->
+    <div class="container">
+      <h1>My Day</h1>
+      <p>All my tasks in one place</p>
+      <input
+        class="new-todo"
+        placeholder="Type new todo"
+        autofocus
+        type="text"
+        [formControl]="newTaskCtrl"
+        (keydown.enter)="changeHandler($event)"
+      />
+    </div>
+  </header>
+
+
+
+<!-- Listado de tareas -->
+
+
+  <div class="container todoapp-wrapper">
+
+    <!-- <pre>
+      <code>
+        {{tasks() | json}}
+      </code>
+    </pre> -->
+
+
+
+    <!-- -----------------Class Main --------------------->
+
+    <section class="main">
+      <ul class="todo-list">
+        <li
+        (dblclick)="updateTaskEditingMode(i)"
+        *ngFor="let task of tasksByFilter();
+        index as i"
+        [class.editing]="task.editing"
+        [class.completed]="task.completed"
+        >
+          <div class="view">
+            <input class="toggle" type="checkbox" (change)="updateTask(i)"  [checked]="task.completed"/>
+            <label>{{task.title}}</label>
+
+            <!-- BORRAR tarea -->
+            <button class="destroy" (click)="deleteTasks(i)"></button>
+          </div>
+          <input class="edit" (keydown.enter)="updateTaskText(i, $event)" [value]="task.title" />
+        </li>
+
+
+
+
+
+
+
+
+<!--
+        <li>
+          <div class="view">
+            <input class="toggle" type="checkbox" />
+            <label>Buy a unicorn</label>
+            <button class="destroy"></button>
+          </div>
+          <input class="edit" value="Buy a unicorn" />
+        </li>
+        <li class="editing">
+          <div class="view">
+            <input class="toggle" type="checkbox" />
+            <label>Make dishes</label>
+            <button class="destroy"></button>
+          </div>
+          <input class="edit" value="Make dishes" />
+        </li> -->
+      </ul>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!------------------------- Footer ----------------------------->
+
+
+    <footer class="footer" *ngIf="tasksByFilter().length > 0">
+      <!-- This should be `0 items left` by default -->
+
+
+      <span class="todo-count">
+        <strong>{{tasksByFilter().length}}</strong>
+        <span *ngIf="tasksByFilter().length === 1; else elseBlock">item</span>
+        <ng-template #elseBlock>items</ng-template>
+      </span>
+
+
+
+      <!-- Remove this if you don't implement routing -->
+
+      <ul class="filters">
+        <li>
+          <a (click)="changeFilter('all')" [class.selected]="filter() === 'all'">All</a>
+        </li>
+        <li>
+          <a (click)="changeFilter('pending')" [class.selected]="filter() === 'pending'" >Pending</a>
+        </li>
+        <li>
+          <a (click)="changeFilter('completed')" [class.selected]="filter() === 'completed'">Completed</a>
+        </li>
+      </ul>
+
+
+      <button class="clear-completed">Clear completed</button>
+    </footer>
+  </div>
+</section>
